@@ -30,9 +30,21 @@ def CalculateCooccurrence(arr):
     return co_matrix
 
 
+def CalculateContrast(arr):
+    contrastValue= 0
+    rows = len(arr) - 1 
+    columns = len(arr[0])
+    for r in range(rows):
+        for c in range(columns):
+            if(c-r != 0):
+                 contrastValue += (arr[r][c] * ((c+1)-(r+1)) / ((c+1)-(r+1)))
+            
+    return contrastValue
 
 # Example usage:
 
 my_2d_array = [[1, 2, 3,4 ],[2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7]]
 final = CalculateCooccurrence(my_2d_array)
+answer = CalculateContrast(final)
 print(final)
+print(answer)
