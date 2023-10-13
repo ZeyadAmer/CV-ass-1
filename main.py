@@ -5,6 +5,8 @@ from PIL import Image
 im = Image.open("Capture.PNG")
 image_array = np.array(im)
 
+# task 1
+
 
 def CalculateCooccurrence(arr):
     """
@@ -39,6 +41,8 @@ def CalculateContrast(arr):
 
     return contrastValue
 
+# task 2
+
 
 def CalculateHistogram(arr):
     """
@@ -69,12 +73,28 @@ def CalculateCumulativeHistogram(arr):
     return Cum_matrix
 
 
+def GetColorAtPercentage(arr, percentage):
+    # Find the indices that correspond to the given percentage
+    lower_percentage = np.max(arr) * percentage / 100
+    upper_percentage = np.max(arr) - lower_percentage
+
+    lower_index = np.argmax(arr >= lower_percentage)
+    upper_index = np.argmax(arr >= upper_percentage)
+
+    lower_intensity = lower_index + 1
+    upper_intensity = upper_index + 1
+
+    return lower_intensity, upper_intensity
+
 # Example usage:
+
+
 my_2d_array = [[5, 5, 7, 8, 8], [8, 6, 8, 8, 6], [
     8, 7, 8, 7, 6], [9, 8, 200, 200, 5], [9, 8, 9, 7, 2]]
 
 histo = CalculateHistogram(my_2d_array)
 cumm = CalculateCumulativeHistogram(histo)
-
+bakh = GetColorAtPercentage(cumm, 10)
 print(histo)
 print(cumm)
+print(bakh)
