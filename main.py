@@ -53,12 +53,28 @@ def CalculateHistogram(arr):
             histo_matrix[arr[r][c]-1] += 1
 
     return histo_matrix
+
+
+def CalculateCumulativeHistogram(arr):
+    """
+    to calculate the cumulative histogram hane3mel new 1d matrix bel max bardo
+    hane3mel temp ne store fe el value we ne add kol index 
+    """
+    Cum_matrix = np.zeros((256))
+    cumulative = 0
+    for m in range(len(arr)):
+        cumulative += arr[m]
+        if (arr[m] != 0):
+            Cum_matrix[m] = cumulative
+    return Cum_matrix
+
+
 # Example usage:
-
-
 my_2d_array = [[5, 5, 7, 8, 8], [8, 6, 8, 8, 6], [
     8, 7, 8, 7, 6], [9, 8, 200, 200, 5], [9, 8, 9, 7, 2]]
 
 histo = CalculateHistogram(my_2d_array)
+cumm = CalculateCumulativeHistogram(histo)
 
 print(histo)
+print(cumm)
