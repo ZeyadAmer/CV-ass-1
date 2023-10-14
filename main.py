@@ -86,6 +86,27 @@ def GetColorAtPercentage(arr, percentage):
 
     return lower_intensity, upper_intensity
 
+def StretchContrast(arr, a, b, c, d):
+    stretched_image = arr.copy()
+    scaling_factor = (b - a) / (d - c)
+    for i in range(arr.shape[0]):
+        for j in range(arr.shape[1]):
+            pixel_value = arr[i, j]
+            new_pixel_value = int(pixel_value - c * scaling_factor + a)
+            stretched_image[i, j] = new_pixel_value
+    return stretched_image
+
+
+def EqualizeHistogram(arr, a ,b):
+    equalized_image = arr.copy()
+    hist, _ = np.histogram(arr, bins=range(256))
+    cdf = hist.cumsum()
+    for i in range(arr.shape[0]):
+        for j in range(arr.shape[1]):
+            pixel_value = arr[i, j]
+            new_pixel_value = int()
+            equalized_image[i, j] = new_pixel_value
+    return equalized_image
 # Example usage:
 
 
