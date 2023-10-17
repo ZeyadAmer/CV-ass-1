@@ -107,7 +107,7 @@ def StretchContrast(arr, a, b, c, d):
 
 def EqualizedHistogram(arr,a,b):
 
-    hist , bins= np.histogram(arr.flatten(), 256, [0, 256])
+    hist = CalculateHistogram(arr)
     cdf = hist.cumsum()
     cdf_normalized = ((cdf - cdf.min()) * (b - a)) / (cdf.max() - cdf.min()) + a
     equalized_image = cdf_normalized[arr]
@@ -146,9 +146,9 @@ my_2d_array = [[5, 5, 7, 8, 8], [8, 6, 8, 8, 6], [
 # print(histo)
 # print(cumm)
 # print(bakh)
-# test = StretchContrast(image_array,0,255,26,201)
-# EqualizedHistogram(image_array,26,201)
-# GrayScaleTransformation(image_array,30,70,180,200)
+test = StretchContrast(image_array,0,255,26,201)
+# EqualizedHistogram(image_array,88,151)
+# GrayScaleTransformation(image_array,88,155,180,200)
 # contrast = CalculateContrast(image_array)
 # print(contrast)
 # co = CalculateCooccurrence(image_array)
