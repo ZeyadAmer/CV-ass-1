@@ -19,7 +19,7 @@ def CalculateCooccurrence(arr):
     3ashan hanesta3melo lama negy nehseb el contrast
     """
     co_matrix = np.zeros(
-        (256, 256))  # ba3mel matrix kebeer kolo zeros we kda kda akbar pixel 256
+        (256, 256),dtype=int)  # ba3mel matrix kebeer kolo zeros we kda kda akbar pixel 256
     rows = len(arr) - 1
     columns = len(arr[0])
     """""
@@ -40,7 +40,7 @@ def CalculateContrast(arr):
     for r in range(rows):
         for c in range(columns):
             if (c-r != 0):
-                contrastValue += (arr[r][c] * ((c+1)-(r+1)) / ((c+1)-(r+1)))
+                contrastValue += int((arr[r][c] * ((c+1)-(r+1)) / ((c+1)-(r+1))))
 
     return contrastValue
 
@@ -52,7 +52,7 @@ def CalculateHistogram(arr):
     to calculate the 1d histogram array you need to calculate the occurence of each pixel
     so we will define an empty 1d array with 256 size the max number of pixels and count
     """
-    histo_matrix = np.zeros((256))
+    histo_matrix = np.zeros((256),dtype=int)
     rows = len(arr)
     columns = len(arr[0])
     for r in range(rows):
@@ -67,7 +67,7 @@ def CalculateCumulativeHistogram(arr):
     to calculate the cumulative histogram hane3mel new 1d matrix bel max bardo
     hane3mel temp ne store fe el value we ne add kol index 
     """
-    Cum_matrix = np.zeros((256))
+    Cum_matrix = np.zeros((256),dtype=int)
     cumulative = 0
     for m in range(len(arr)):
         cumulative += arr[m]
@@ -128,7 +128,7 @@ def GrayScaleTransformation(arr, x1, y1, x2, y2):
                 elif ( pixel_value < x2):
                     new_pixel_value= ((pixel_value-x1)*((y2-y1)/(x2-x1)))+y1
                 elif ( x2<= pixel_value): 
-                    new_pixel_value= ((pixel_value-x2)* ((255-(y2-1))/(255-(x2-1))))+ y2
+                    new_pixel_value= ((pixel_value-x2)* ((255-y2)/(255-x2)))+ y2
                 transformed[r][o] = np.array(new_pixel_value)
         transformed = Image.fromarray(transformed)
         image = transformed.show()
@@ -147,10 +147,9 @@ my_2d_array = [[5, 5, 7, 8, 8], [8, 6, 8, 8, 6], [
 # print(cumm)
 # print(bakh)
 # test = StretchContrast(image_array,0,255,26,201)
-# if test.dtype == np.uint8:
-#     print("The array is of type uint8.")
-# else:
-#     print("The array is not of type uint8.")
-# print(my_2d_array)
-EqualizedHistogram(image_array,26,201)
-# GrayScaleTransformation(image_array,120,20,255,255)
+# EqualizedHistogram(image_array,26,201)
+# GrayScaleTransformation(image_array,30,70,180,200)
+# contrast = CalculateContrast(image_array)
+# print(contrast)
+# co = CalculateCooccurrence(image_array)
+# print(co)
