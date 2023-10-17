@@ -2,8 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 
-im = Image.open("Capture.PNG")
+im = Image.open("test.png").convert('L')
 image_array = np.array(im)
+# print(image_array)
+# im.show()
+
 
 # task 1
 
@@ -86,15 +89,68 @@ def GetColorAtPercentage(arr, percentage):
 
     return lower_intensity, upper_intensity
 
+def StretchContrast(arr, a, b, c, d):
+    stretched_image = arr.copy()
+    scaling_factor = (b - a) / (d - c)
+    
+    rows = len(arr)
+    columns = len(arr[0])
+    for r in range(rows):
+        for o in range(columns):
+            pixel_value = arr[r][o]
+            new_pixel_value = int((pixel_value - c) * scaling_factor + a)
+            stretched_image[r][o] = np.array(new_pixel_value)
+    stretched_image = Image.fromarray(stretched_image)
+    stretched_image.show()
+    
+    return stretched_image
+
+def EqualizedHistogram(arr,a,b):
+
+    hist , bins= np.histogram(arr.flatten(), 256, [0, 256])
+    cdf = hist.cumsum()
+    cdf_normalized = ((cdf - cdf.min()) * (b - a)) / (cdf.max() - cdf.min()) + a
+    equalized_image = cdf_normalized[arr]
+    image = Image.fromarray(equalized_image)
+    image.show()
+    return image
+
+
+def GrayScaleTransformation(arr, x1, y1, x2, y2):
+        transformed = arr.copy()
+        rows = len(arr)
+        columns = len(arr[0])
+        for r in range(rows):
+            for o in range(columns):
+                pixel_value = arr[r][o]
+                if(pixel_value < x1):
+                    new_pixel_value= pixel_value * (y1/x1)
+                elif ( pixel_value < x2):
+                    new_pixel_value= ((pixel_value-x1)*((y2-y1)/(x2-x1)))+y1
+                elif ( x2<= pixel_value): 
+                    new_pixel_value= ((pixel_value-x2)* ((255-(y2-1))/(255-(x2-1))))+ y2
+                transformed[r][o] = np.array(new_pixel_value)
+        transformed = Image.fromarray(transformed)
+        image = transformed.show()
+        return image
+
 # Example usage:
 
 
 my_2d_array = [[5, 5, 7, 8, 8], [8, 6, 8, 8, 6], [
     8, 7, 8, 7, 6], [9, 8, 200, 200, 5], [9, 8, 9, 7, 2]]
 
-histo = CalculateHistogram(my_2d_array)
-cumm = CalculateCumulativeHistogram(histo)
-bakh = GetColorAtPercentage(cumm, 10)
-print(histo)
-print(cumm)
-print(bakh)
+# histo = CalculateHistogram(image_array)
+# cumm = CalculateCumulativeHistogram(histo)
+# bakh = GetColorAtPercentage(cumm, 10)
+# print(histo)
+# print(cumm)
+# print(bakh)
+# test = StretchContrast(image_array,0,255,26,201)
+# if test.dtype == np.uint8:
+#     print("The array is of type uint8.")
+# else:
+#     print("The array is not of type uint8.")
+# print(my_2d_array)
+EqualizedHistogram(image_array,26,201)
+# GrayScaleTransformation(image_array,120,20,255,255)
