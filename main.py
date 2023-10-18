@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 
-im = Image.open("test.png").convert('L')
+im = Image.open("ghost+1.png").convert('L')
 image_array = np.array(im)
 # print(image_array)
 # im.show()
@@ -33,14 +33,32 @@ def CalculateCooccurrence(arr):
     return co_matrix
 
 
+# def CalculateContrast(arr):
+#     contrastValue = 0
+#     rows = len(arr) - 1
+#     columns = len(arr[0])
+#     for r in range(rows):
+#         for c in range(columns):
+#             if (c-r != 0):
+#                 contrastValue += (arr[r][c] * ((c+1)-(r+1)) / ((c+1)-(r+1)))
+
+#     return contrastValue
+
 def CalculateContrast(arr):
     contrastValue = 0
-    rows = len(arr) - 1
+    rows = len(arr)
     columns = len(arr[0])
+    
     for r in range(rows):
-        for c in range(columns):
-            if (c-r != 0):
-                contrastValue += int((arr[r][c] * ((c+1)-(r+1)) / ((c+1)-(r+1))))
+        for c in range(columns-1):
+            if (c - r != 0):
+                dot_product = 0
+                modulus = c - r
+                for i in range(r, min(rows, c + 1)):
+                    for j in range(r, min(columns-1, c + 1)):
+                        dot_product += arr[i][j]
+                
+                contrastValue += dot_product % modulus
 
     return contrastValue
 
@@ -89,6 +107,8 @@ def GetColorAtPercentage(arr, percentage):
 
     return lower_intensity, upper_intensity
 
+# task 3
+
 def StretchContrast(arr, a, b, c, d):
     stretched_image = arr.copy()
     scaling_factor = (b - a) / (d - c)
@@ -127,8 +147,10 @@ def GrayScaleTransformation(arr, x1, y1, x2, y2):
                     new_pixel_value= pixel_value * (y1/x1)
                 elif ( pixel_value < x2):
                     new_pixel_value= ((pixel_value-x1)*((y2-y1)/(x2-x1)))+y1
-                elif ( x2<= pixel_value): 
+                elif ( x2< pixel_value): 
                     new_pixel_value= ((pixel_value-x2)* ((255-y2)/(255-x2)))+ y2
+                elif(pixel_value-x2 == 0):
+                    new_pixel_value = y2
                 transformed[r][o] = np.array(new_pixel_value)
         transformed = Image.fromarray(transformed)
         image = transformed.show()
@@ -146,10 +168,8 @@ my_2d_array = [[5, 5, 7, 8, 8], [8, 6, 8, 8, 6], [
 # print(histo)
 # print(cumm)
 # print(bakh)
-test = StretchContrast(image_array,0,255,26,201)
+# test = StretchContrast(image_array,0,255,26,201)
 # EqualizedHistogram(image_array,88,151)
-# GrayScaleTransformation(image_array,88,155,180,200)
-# contrast = CalculateContrast(image_array)
-# print(contrast)
-# co = CalculateCooccurrence(image_array)
-# print(co)
+# GrayScaleTransformation(image_array,120,20,255,255)
+print(CalculateContrast(image_array))
+# print(CalculateCooccurrence(image_array))
