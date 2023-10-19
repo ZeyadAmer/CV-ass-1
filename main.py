@@ -109,6 +109,7 @@ def StretchContrast(arr, a, b, c, d):
             stretched_image[r][o] = np.array(new_pixel_value)
     stretched_image = Image.fromarray(stretched_image)
     stretched_image.show()
+
     
     return stretched_image
 
@@ -116,8 +117,8 @@ def EqualizedHistogram(arr,a,b):
 
     hist = CalculateHistogram(arr)
     cdf = hist.cumsum()
-    cdf_normalized = ((cdf - cdf.min()) * (b - a)) / (cdf.max() - cdf.min()) + a
-    equalized_image = cdf_normalized[arr]
+    cdf_normalized = ((cdf - cdf.min()) * (b-a)) / (cdf.max() - cdf.min()) 
+    equalized_image = cdf_normalized[arr].astype(np.uint8)
     image = Image.fromarray(equalized_image)
     image.show()
     return image
@@ -138,10 +139,10 @@ def GrayScaleTransformation(arr, x1, y1, x2, y2):
                     new_pixel_value= ((pixel_value-x2)* ((255-y2)/(255-x2)))+ y2
                 elif(pixel_value-x2 == 0):
                     new_pixel_value = y2
-                transformed[r][o] = np.array(new_pixel_value)
+                transformed[r][o] = np.array(new_pixel_value,dtype=int)
         transformed = Image.fromarray(transformed)
-        image = transformed.show()
-        return image
+        transformed.show()
+        return transformed
 
 # Example usage:
 
@@ -151,17 +152,17 @@ my_2d_array = [[5, 5, 7, 8, 8], [8, 6, 8, 8, 6], [
 
 # task 1
 # print(CalculateCooccurrence(image_array))
-print(CalculateContrast(CalculateCooccurrence(image_array)))
+# print(CalculateContrast(CalculateCooccurrence(image_array)))
 
 
 # task 2
-# histo = CalculateHistogram(image_array)
+histo = CalculateHistogram(image_array)
 # cumm = CalculateCumulativeHistogram(histo)
 # bakh = GetColorAtPercentage(cumm, 10)
 # print(histo)
 # Plot the histogram
-# plt.bar(range(256), cumm)
-# plt.title("Histogram")
+# plt.bar(range(256), histo)
+# plt.title("Histogram1")
 # plt.xlabel("Pixel Value")
 # plt.ylabel("Frequency")
 # plt.show()
@@ -172,6 +173,34 @@ print(CalculateContrast(CalculateCooccurrence(image_array)))
 #task 3
 
 # test = StretchContrast(image_array,0,255,88,151)
-# EqualizedHistogram(image_array,88,151)
-# GrayScaleTransformation(image_array,88,5,151,250)
+# image_arrayout = np.array(test)
+# histoout= CalculateHistogram(image_arrayout)
+
+# plt.bar(range(256), histoout)
+# plt.title("Histogram2")
+# plt.xlabel("Pixel Value")
+# plt.ylabel("Frequency")
+# plt.show()
+
+test2 = EqualizedHistogram(image_array,0,255)
+image_arrayout2 = np.array(test2)
+histoout2= CalculateHistogram(image_arrayout2)
+
+plt.bar(range(256), histoout2)
+plt.title("Histogram")
+plt.xlabel("Pixel Value")
+plt.ylabel("Frequency")
+plt.show()
+
+
+# test3 = GrayScaleTransformation(image_array,88,5,151,250)
+# image_arrayout3 = np.array(test3)
+# print(image_arrayout3)
+# histoout3= CalculateHistogram(image_arrayout3)
+
+# plt.bar(range(256), histoout3)
+# plt.title("Histogram")
+# plt.xlabel("Pixel Value")
+# plt.ylabel("Frequency")
+# plt.show()
 
