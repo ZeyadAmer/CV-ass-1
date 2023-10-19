@@ -33,34 +33,21 @@ def CalculateCooccurrence(arr):
     return co_matrix
 
 
-# def CalculateContrast(arr):
-#     contrastValue = 0
-#     rows = len(arr) - 1
-#     columns = len(arr[0])
-#     for r in range(rows):
-#         for c in range(columns):
-#             if (c-r != 0):
-#                 contrastValue += (arr[r][c] * ((c+1)-(r+1)) / ((c+1)-(r+1)))
-
-#     return contrastValue
-
 def CalculateContrast(arr):
-    contrastValue = 0
-    rows = len(arr)
+    up = 0
+    down =0
+    rows = len(arr) -1
     columns = len(arr[0])
-    
     for r in range(rows):
-        for c in range(columns-1):
-            if (c - r != 0):
-                dot_product = 0
-                modulus = c - r
-                for i in range(r, min(rows, c + 1)):
-                    for j in range(r, min(columns-1, c + 1)):
-                        dot_product += arr[i][j]
-                
-                contrastValue += dot_product % modulus
+        for c in range(columns):
+            if (r-c != 0):
+                up += ((arr[r][c]) * (abs(r-c)))
+                down += (abs(r-c))
+    contrastValue = up / down
+
 
     return contrastValue
+
 
 # task 2
 
@@ -118,7 +105,7 @@ def StretchContrast(arr, a, b, c, d):
     for r in range(rows):
         for o in range(columns):
             pixel_value = arr[r][o]
-            new_pixel_value = int((pixel_value - c) * scaling_factor + a)
+            new_pixel_value = int(((pixel_value - c) * scaling_factor) + a)
             stretched_image[r][o] = np.array(new_pixel_value)
     stretched_image = Image.fromarray(stretched_image)
     stretched_image.show()
@@ -162,14 +149,29 @@ def GrayScaleTransformation(arr, x1, y1, x2, y2):
 my_2d_array = [[5, 5, 7, 8, 8], [8, 6, 8, 8, 6], [
     8, 7, 8, 7, 6], [9, 8, 200, 200, 5], [9, 8, 9, 7, 2]]
 
+# task 1
+# print(CalculateCooccurrence(image_array))
+print(CalculateContrast(CalculateCooccurrence(image_array)))
+
+
+# task 2
 # histo = CalculateHistogram(image_array)
 # cumm = CalculateCumulativeHistogram(histo)
 # bakh = GetColorAtPercentage(cumm, 10)
 # print(histo)
+# Plot the histogram
+# plt.bar(range(256), cumm)
+# plt.title("Histogram")
+# plt.xlabel("Pixel Value")
+# plt.ylabel("Frequency")
+# plt.show()
 # print(cumm)
 # print(bakh)
-# test = StretchContrast(image_array,0,255,26,201)
+
+
+#task 3
+
+# test = StretchContrast(image_array,0,255,88,151)
 # EqualizedHistogram(image_array,88,151)
-# GrayScaleTransformation(image_array,120,20,255,255)
-print(CalculateContrast(image_array))
-# print(CalculateCooccurrence(image_array))
+# GrayScaleTransformation(image_array,88,5,151,250)
+
